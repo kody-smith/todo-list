@@ -1,0 +1,73 @@
+.welcome {
+    text-align: center;
+    max-width: 500px;
+    height: 100%;
+    padding:10rem 6rem 10rem 6rem;
+    background: #ffffff;
+    color:rgb(0, 0, 0);
+}
+
+#logoImg {
+    max-width: 40px;
+    align-items: center;
+    margin: 0 0.5rem -.5rem 0.5rem;
+}
+
+.sign-in-heading {
+    margin-left: -2rem;
+    margin-bottom: 3rem;
+}
+.login-signin-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+}
+label {
+    color: #fff;
+    margin-left: 1rem;
+    text-align: left;
+}
+
+label, input {
+    /* display: block; */
+    color: #000;
+}
+input {
+    padding: .5rem;
+    margin: .75rem;
+    border: 1px solid #000;
+    /* border-bottom: 1px solid #000; */
+    border-radius: .75rem;
+    box-shadow: inset .5px .5px 1px #000;
+}
+
+button {
+    display: block;
+    padding: .5rem;
+    margin: .75rem;
+    border: 0px;
+    border-radius: .75rem;
+}
+
+#signInBtn {
+    cursor: pointer;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    background: #006F8A;
+    color: #fff;
+}
+
+#signInBtn:hover {
+    background: #004455;
+    /* box-shadow: inset .1rem .1rem .1rem #000; */
+}
+
+#signInBtn:active {
+    box-shadow: inset .2rem .1rem .5rem #000;
+}
+
+#createAcctLink {
+    cursor: pointer;
+    color: #006F8A;
+    text-decoration: underline;
+}

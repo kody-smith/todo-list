@@ -1,13 +1,21 @@
 body {
   margin: 0;
+  overflow: hidden;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: no-repeat top right url("images/background.jpg");
+  background-blend-mode: multiply;
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+body > #root > .app > .welcome {
+  height: 100vh;
 }
