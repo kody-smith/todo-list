@@ -7,8 +7,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: no-repeat top right url("images/background.jpg");
-  background-blend-mode: multiply;
-  background-color: rgba(0, 0, 0, 0.2);
+  /* background-blend-mode: multiply; */
+  /* background-color: rgba(0, 0, 0, 0.2); */
+  background-color: #E1F5FC;
 }
 
 code {
@@ -19,3 +20,17 @@ code {
 body > #root > .app > .welcome {
   height: 100vh;
 }
+
+body > #root > .app > .homepage {
+  width: 750px;
+  height: 100vh;
+}
+
+@media screen and (max-width: 1440px) {
+  body > #root > .app > .homepage {
+      max-width: 100vw;
+      width: 100vw;
+  }
+
+}
+

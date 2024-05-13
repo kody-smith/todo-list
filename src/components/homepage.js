@@ -4,32 +4,39 @@ import { auth, db } from "../firebase.js"
 import { useNavigate } from "react-router-dom";
 import { uid } from "uid";
 import { set,ref, onValue, remove, update } from "firebase/database";
+import './homepage.css';
+import logo from '../images/checklist.png';
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import CheckIcon from '@mui/icons-material/Check';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 export default function Homepage() {
-    const [todo, setTodo] = useState("");
     const [todoList, setTodoList] = useState([]);
-    const [isEdit, setEdit] = useState(false);
-    const [tempUid, setTempUid] = useState("");
+    const [editingItemId, setEditingItemId] = useState(null);
+    const [newTodo, setNewTodo] = useState("");
+    const [editingTodo, setEditingTodo] = useState("");
     const nav = useNavigate();
 
     useEffect(() => {
-        auth.onAuthStateChanged((user) => {
-          if (user) {
-            // read
-            onValue(ref(db, `/${auth.currentUser.uid}`), (snapshot) => {
-              setTodoList([]);
-              const data = snapshot.val();
-              if (data !== null) {
-                Object.values(data).map((todo) => {
-                  setTodoList((oldArray) => [...oldArray, todo]);
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                onValue(ref(db, `/${auth.currentUser.uid}`), (snapshot) => {
+                    const data = snapshot.val();
+                    if (data !== null) {
+                        const todoItems = Object.values(data);
+                        setTodoList(todoItems);
+                    } else {
+                        setTodoList([]);
+                    }
                 });
-              }
-            });
-          } else if (!user) {
-            nav("/");
-          }
+            } else {
+                nav("/");
+            }
         });
-      }, []);
+        return () => unsubscribe();
+    }, [nav]);
 
     const handleSignOut = () => {
         signOut(auth)
@@ -37,63 +44,84 @@ export default function Homepage() {
                 nav("/");
             })
             .catch(err => {
-                    alert(err.message);
-                }
-            );
-    }
+                alert(err.message);
+            });
+    };
 
-    // Create
-    const addToDb = () => {
-        const userId = uid();
-        set(ref(db,`/${auth.currentUser.uid}/${userId}`), {
-            todo: todo,
-            userId: userId,
+    const startEditing = (itemId, todoText) => {
+        setEditingItemId(itemId);
+        setEditingTodo(todoText);
+    };
+
+    const confirmEdit = () => {
+        update(ref(db, `/${auth.currentUser.uid}/${editingItemId}`), {
+            todo: editingTodo
+        }).then(() => {
+            setEditingItemId(null);
+            setEditingTodo("");
+        }).catch((error) => {
+            console.error("Error updating document: ", error);
         });
-        setTodo("");
-    };
-    // Read
-
-    // Update
-    const editListItem = (todo) => {
-        setEdit(true);
-        setTodo(todo.todo);
-        setTempUid(todo.userId);
     };
 
-    const handleConfirm = () => {
-        update(ref(db,`/${auth.currentUser.uid}/${tempUid}`), {
-            todo: todo, 
-            tempUid: tempUid
-        });
-
-        setTodo("");
-        setEdit(false);
+    const cancelEdit = () => {
+        setEditingItemId(null);
+        setEditingTodo("");
     };
-    // Delete
+
     const deleteListItem = (uid) => {
-        remove(ref(db,`/${auth.currentUser.uid}/${uid}`));
+        remove(ref(db, `/${auth.currentUser.uid}/${uid}`)).catch((error) => {
+            console.error("Error removing document: ", error);
+        });
+    };
+
+    const handleAdd = () => {
+        const userId = uid();
+        set(ref(db, `/${auth.currentUser.uid}/${userId}`), {
+            todo: newTodo,
+            userId: userId
+        }).then(() => {
+            setNewTodo("");
+        }).catch((error) => {
+            console.error("Error adding document: ", error);
+        });
     };
 
     return (
-        <div>
-            <input type="text" placeholder="Add Todo Item" value={todo} onChange={(e) => setTodo(e.target.value)}></input>
-        {todoList.map((todo) => (
-            <div>
-                <h1>{todo.todo}</h1>
-                <button onClick={() => editListItem(todo)}>Edit</button>
-                <button onClick={() => deleteListItem(todo.userId)}>Delete</button>
+        <div className="homepage">
+            <h1 className="add-heading"><img id="logoImg" src={logo} alt="Logo" />Todo List</h1>
+            <div className="add-todo-container">
+                <input
+                    className="add-todo-input"
+                    type="text"
+                    value={newTodo}
+                    onChange={(e) => setNewTodo(e.target.value)}
+                />
+                <AddIcon onClick={handleAdd} className="add-icon"></AddIcon>
             </div>
-        ))}
-            {isEdit ? (
-                <div>
-                    <button onClick={ handleConfirm }>Confirm</button>
+            {todoList.map((todo) => (
+                <div className="todo-items" key={todo.userId}>
+                    {editingItemId === todo.userId ? (
+                        <>
+                            <input
+                                className="edit-todo-input"
+                                type="text"
+                                value={editingTodo}
+                                onChange={(e) => setEditingTodo(e.target.value)}
+                            />
+                            <CheckIcon className="check-btn" onClick={confirmEdit}>Confirm</CheckIcon>
+                            <DeleteIcon className="trash-btn" onClick={() => deleteListItem(todo.userId)}>Delete</DeleteIcon>
+                        </>
+                    ) : (
+                        <>
+                            <p className="items">{todo.todo}</p>
+                            <EditIcon className="edit-btn" onClick={() => startEditing(todo.userId, todo.todo)}>Edit</EditIcon>
+                            <DeleteIcon className="trash-btn" onClick={() => deleteListItem(todo.userId)}>Delete</DeleteIcon>
+                        </>
+                    )}
                 </div>
-            ) : (
-                <div>
-                    <button onClick={ addToDb }>Add</button>
-                </div>
-            )}
-            <button onClick={ handleSignOut }>Sign Out</button>
+            ))}
+            <LogoutIcon className="logout-icon" onClick={handleSignOut}>Sign Out</LogoutIcon>
         </div>
-    )
+    );
 }

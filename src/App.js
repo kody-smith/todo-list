@@ -19,7 +19,7 @@ function App() {
           <Route path="/" element={<Welcome />}/>
           <Route path="/homepage" element={<Homepage />}/>
         </Routes>
-        </Router>
+      </Router>
     </div>
   );
 }
