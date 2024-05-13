@@ -4,7 +4,7 @@
     height: 100%;
     padding:10rem 6rem 10rem 6rem;
     background: #2c2c2c;
-    color:#000;
+    color:#fff;
 }
 
 #logoImg {
@@ -30,12 +30,13 @@ label {
 
 label, input {
     /* display: block; */
-    color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
 }
 input {
     padding: .5rem;
     margin: .75rem;
     border: 1px solid #000;
+    color: #000;
     /* border-bottom: 1px solid #000; */
     border-radius: .75rem;
     box-shadow: inset .5px .5px 1px #000;
