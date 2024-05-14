@@ -62,21 +62,23 @@ export default function Welcome() {
             <div className='login-signin-container'>
                 {isSigning ? (
                     <>
-                    <form id='login-form'>
-                        <label htmlFor='emailId'>
+                    <form id='loginForm'>
+                        <label id="emailIdLabel" htmlFor='emailId'>
                             Email: <input id="emailId" type="email" placeholder="Email" value={signUpInfo.email} onChange={(e) => setSignUpInfo({...signUpInfo, email: e.target.value})}></input>
                         </label>
-                        <label>
-                            <input type="email" placeholder="Confirm Email" value={signUpInfo.confirmEmail} onChange={(e) => setSignUpInfo({...signUpInfo, confirmEmail: e.target.value})}></input>
+                        <label id="confirmEmailLabel" htmlFor='confirmEmail'>
+                            Confirm Email: <input id="confirmEmail" type="email" placeholder="Confirm Email" value={signUpInfo.confirmEmail} onChange={(e) => setSignUpInfo({...signUpInfo, confirmEmail: e.target.value})}></input>
                         </label>
-                        <label>
-                            <input type="password" placeholder="Password" value={signUpInfo.pass} onChange={(e) => setSignUpInfo({...signUpInfo, pass: e.target.value})}></input>
+                        <label id="passwordIdLabel" htmlFor='passwordId'>
+                            Password: <input id="passwordId" type="password" placeholder="Password" value={signUpInfo.pass} onChange={(e) => setSignUpInfo({...signUpInfo, pass: e.target.value})}></input>
                         </label>
-                        <label>
-                            <input type="password" placeholder="Confirm Password" value={signUpInfo.confirmPass} onChange={(e) => setSignUpInfo({...signUpInfo, confirmPass: e.target.value})}></input>
+                        <label id="confirmPassLabel" htmlFor='confirmPass'>
+                            Confirm Password: <input id="confirmPass" type="password" placeholder="Confirm Password" value={signUpInfo.confirmPass} onChange={(e) => setSignUpInfo({...signUpInfo, confirmPass: e.target.value})}></input>
                         </label>
-                        <button className='login-btn' onClick={signUp}>Sign Up</button>
-                        <button className='login-btn' onClick={() => setIsSigning(false)}>Go Back</button>
+                        <div className="sign-up-btn-container">
+                            <button className='sign-up-btn' onClick={signUp}>Sign Up</button>
+                            <button className='back-btn' onClick={() => setIsSigning(false)}>Go Back</button>
+                        </div>
                     </form>
                 </>
                 ) : (

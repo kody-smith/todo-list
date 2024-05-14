@@ -35,3 +35,11 @@ body > #root > .app > .homepage {
 
 }
 
+@media screen and (max-width: 1140px) {
+  body > #root > .app > .welcome {
+    max-width: 100vw;
+    width: 85vw;
+  }
+
+}
+
