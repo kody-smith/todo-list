@@ -90,8 +90,8 @@
 
 .logout-icon {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 1.4rem;
+    right: 1.4rem;
     margin: 2rem;
     padding: .5rem;
     border: 1px solid #000;
@@ -112,6 +112,13 @@
     .add-todo-container {
         grid-template-columns: 2.95fr .1fr;
         column-gap: 0;
+    }
+  
+}
+
+@media screen and (max-width: 1000px) {
+    .logout-icon {
+        right: -8rem;
     }
   
 }
