@@ -15,7 +15,6 @@ export default function Welcome() {
         pass: "",
         confirmPass: ""
     });
-    const nav = useNavigate();
 
     useEffect(() => {
         auth.onAuthStateChanged((user) => {
